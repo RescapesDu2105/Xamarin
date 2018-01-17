@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessLogicLayer;
+using DTOLib;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SmartVideoAPI.Controllers
 {
     public class FilmsController : Controller
     {
-        // GET: /<controller>/
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
-        public List<DTOLib.FilmDTO> GetAllFilms()
+        public List<FilmDTO> GetAllFilms()
         {
             return BLLFilm.getAllFilms();
         }
 
         [HttpGet]
-        public List<DTOLib.FilmDTO> Actors(int id)
+        public List<FilmDTO> Actors(int id)
         {
-            return BLLFilm.
+            return null;// BLLFilm.getStock();
         }
     }
 }
