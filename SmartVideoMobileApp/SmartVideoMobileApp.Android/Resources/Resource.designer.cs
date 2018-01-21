@@ -44,8 +44,17 @@ namespace SmartVideoMobileApp.Droid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050002
+			public const int TF_Recherche = 2131034114;
+			
+			// aapt resource value: 0x7f050003
+			public const int buttonChercher = 2131034115;
+			
 			// aapt resource value: 0x7f050000
-			public const int myButton = 2131034112;
+			public const int linearLayout1 = 2131034112;
+			
+			// aapt resource value: 0x7f050001
+			public const int textView1 = 2131034113;
 			
 			static Id()
 			{

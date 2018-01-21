@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="BusinessLogicLayer">
-      <HintPath>..\..\..\C#\SmartVideo\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.dll</HintPath>
+    <Reference Include="DataAccessLayerDBFilm">
+      <HintPath>..\..\..\C#\SmartVideo\DataAccessLayerDBFilm\bin\Debug\DataAccessLayerDBFilm.dll</HintPath>
     </Reference>
     <Reference Include="DTOLib">
       <HintPath>..\..\..\C#\SmartVideo\DTOLib\bin\Debug\DTOLib.dll</HintPath>

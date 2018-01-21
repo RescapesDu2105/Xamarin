@@ -9,6 +9,8 @@ using System;
 using System.Text;
 using Newtonsoft.Json;
 using SmartApp;
+using System.Net.Http;
+using static Android.Provider.SyncStateContract;
 
 namespace SmartVideoMobileApp.Droid
 {
@@ -20,51 +22,41 @@ namespace SmartVideoMobileApp.Droid
         public WebClient mWeb;
         public Toolbar mTool;
         public Button mSearch;
-
-        public Uri murl = new Uri("http://localhost/api/films");
+        public HttpClient client;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            client = new HttpClient();
+            client.MaxResponseContentBufferSize = 256000;
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
             // Get our button from the layout resource,
             // and attach an event to it
-            Button button = FindViewById<Button>(Resource.Id.myButton);
+            Button button = FindViewById<Button>(Resource.Id.buttonChercher);
 
-            button.Click += delegate 
-            {
-                ChargerFilms();
-            };
+            button.Click += Button_Click; 
         }
 
-        void ChargerFilms()
+        private async void Button_Click(object sender, EventArgs e)
         {
-            mWeb = new WebClient();
-
-            mWeb.DownloadDataAsync(murl);
-            mWeb.DownloadDataCompleted += MWeb_DownloadDataCompleted;
-            mWeb.Dispose();
+            List<FilmDTO> Films = await ChargerFilms();
         }
-        private void MWeb_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
-        {
-            RunOnUiThread(() =>
-            {
-                try
-                {
-                    string json = Encoding.UTF8.GetString(e.Result);
-                    ListeFilms = JsonConvert.DeserializeObject<List<FilmDTO>>(json);
-                    FilmViewAdapter adapter = new FilmViewAdapter(this, ListeFilms);
-                    mView.Adapter = adapter;
-                }
-                catch (Exception)
-                {
-                    Toast.MakeText(this, "Une erreur est survenue lors de la connexion avec le serveur central", ToastLength.Short).Show();
-                }
-            });
 
+        private async Task<List<FilmDTO>> ChargerFilms()
+        {
+            EditText TF = FindViewById<EditText>(Resource.Id.TF_Recherche);
+            var response = await client.GetAsync(new Uri("http://localhost:62835/api/films/" + TF.Text));
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                List<FilmDTO> Films = JsonConvert.DeserializeObject<List<FilmDTO>>(content);
+                Console.WriteLine(Films.Count);
+                return Films;
+            }
+            return null;
         }
     }
 }
